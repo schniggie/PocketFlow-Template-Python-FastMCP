@@ -9,7 +9,7 @@ import json
 import os
 from pathlib import Path
 from typing import Dict, Any, List, Optional
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 import logging
 
 logger = logging.getLogger(__name__)
@@ -27,7 +27,8 @@ class MCPServersConfig(BaseModel):
     """Configuration for all MCP servers."""
     mcpServers: Dict[str, MCPServerConfig]
 
-    @validator('mcpServers')
+    @field_validator('mcpServers')
+    @classmethod
     def validate_servers(cls, v):
         if not v:
             raise ValueError("At least one MCP server must be configured")

@@ -6,7 +6,7 @@ for various tasks like file operations, web fetching, and tool discovery.
 """
 
 from pocketflow import Flow
-from nodes.mcp_nodes import (
+from nodes import (
     MCPInitializeNode,
     MCPDiscoverToolsNode,
     MCPListServersNode,
