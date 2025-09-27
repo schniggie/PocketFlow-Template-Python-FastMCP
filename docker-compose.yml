@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+      - /app/__pycache__
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-your-api-key}
+      - PYTHONPATH=/app
+    ports:
+      - "8000:8000"
+    command: python main.py
+
+  test:
+    build: .
+    volumes:
+      - .:/app
+      - /app/__pycache__
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-test-key}
+      - PYTHONPATH=/app
+    command: pytest tests/ -v
+    depends_on:
+      - app
+
+  # Example MCP servers for testing
+  mcp-filesystem:
+    build: .
+    volumes:
+      - .:/app
+      - /tmp:/tmp
+    command: npx -y @modelcontextprotocol/server-filesystem /tmp
+    ports:
+      - "3001:3001"
+
+  mcp-fetch:
+    build: .
+    command: uvx mcp-server-fetch
+    ports:
+      - "3002:3002"
+
+networks:
+  default:
+    name: fastmcp-network
