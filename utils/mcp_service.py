@@ -11,8 +11,16 @@ from typing import Dict, List, Any, Optional, Union
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 
-from fastmcp import Client
-from fastmcp.client.transports import StdioTransport
+try:
+    from fastmcp import Client
+    from fastmcp.client.transports import StdioTransport
+except ImportError as e:
+    raise ImportError(
+        "FastMCP is not installed. Please install it with:\n"
+        "  pip install -r requirements.txt\n"
+        "Or run the setup script:\n"
+        "  python setup.py"
+    ) from e
 
 from .mcp_config import MCPConfigManager
 

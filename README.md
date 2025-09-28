@@ -45,7 +45,33 @@ git clone <repository-url>
 cd PocketFlow-Template-Python-FastMCP
 ```
 
-### 2. Run with Docker Compose
+### 2. Automated Setup (Recommended)
+
+```bash
+# Run the setup script to install dependencies and test everything
+python setup.py
+```
+
+This will:
+- Check Python version compatibility (3.11+ required)
+- Check system dependencies (Node.js, npm, Docker)
+- Install all Python dependencies
+- Run tests to verify installation
+
+### 3. Manual Setup
+
+```bash
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Test the installation
+python test_basic.py
+
+# Run the application
+python main.py
+```
+
+### 4. Docker Development (Alternative)
 
 ```bash
 # Build and run the application
@@ -53,19 +79,6 @@ docker-compose up app
 
 # Run tests
 docker-compose run test
-```
-
-### 3. Local Development
-
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the application
-python main.py
-
-# Run tests
-pytest tests/ -v
 ```
 
 ## 🔧 Configuration
@@ -93,6 +106,53 @@ Edit `config/mcp_servers.json` to configure your MCP servers:
 
 - `OPENAI_API_KEY`: Your OpenAI API key for LLM calls
 - `RUN_MCP_DEMO`: Set to "false" to skip MCP demonstration (default: "true")
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+#### "No module named 'fastmcp'" Error
+
+This means the FastMCP dependency is not installed. Fix with:
+
+```bash
+# Option 1: Run the setup script
+python setup.py
+
+# Option 2: Install manually
+pip install -r requirements.txt
+
+# Option 3: Install specific package
+pip install fastmcp>=2.12.0
+```
+
+#### "No module named 'pocketflow'" Error
+
+Install the PocketFlow framework:
+
+```bash
+pip install pocketflow>=0.0.1
+```
+
+#### MCP Server Connection Issues
+
+1. Ensure Node.js and npm are installed
+2. Check that MCP server commands are available:
+   ```bash
+   npx @modelcontextprotocol/server-filesystem --version
+   uvx mcp-server-fetch --version
+   ```
+3. Verify your `config/mcp_servers.json` configuration
+
+#### Python Version Issues
+
+This template requires Python 3.11+. Check your version:
+
+```bash
+python --version
+```
+
+If you have an older version, consider using pyenv or conda to install Python 3.11+.
 
 ## 📚 Usage Examples
 
